@@ -1,5 +1,10 @@
+using GranShopAPI.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+string conexao = builder.Configuration.GetConnectionString("Conexao");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(conexao));
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -20,6 +25,12 @@ builder.Services.AddSwaggerGen(
 );
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await dbContext.Database.EnsureCreatedAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
