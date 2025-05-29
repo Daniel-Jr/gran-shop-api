@@ -16,16 +16,14 @@ public class Produto
 	public Categoria Categoria { get; set; }
 
 	[Required]
-	
 	public string Nome { get; set; }
 
 	[Required]
-	[StringLength(30)]
+	[StringLength(120)]
 
 	public string Descricao { get; set; }
 
-	[Required]
-  [StringLength(60)]	
+	[Required]	
 	public int Estoque { get; set; }
 
 
